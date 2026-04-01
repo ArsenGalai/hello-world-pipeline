@@ -3,19 +3,14 @@
   hosts: manager
   gather_facts: false
   tasks:
-    - name: Create Swarm Service
+    - name: Create or Update Swarm Service
       raw: >
         docker service create 
         --name hello-world-app 
         --publish published=8080,target=80 
         --replicas 2
-        {% raw %}{{ target_image }}{% endraw %}
-      register: deploy_result
-      ignore_errors: yes
-
-    - name: Update Swarm Service
-      raw: >
+        {{ target_image }} 
+        || 
         docker service update 
-        --image {% raw %}{{ target_image }}{% endraw %} 
+        --image {{ target_image }} 
         hello-world-app
-      when: deploy_result.rc != 0
