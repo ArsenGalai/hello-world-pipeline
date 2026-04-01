@@ -9,13 +9,13 @@
         --name hello-world-app 
         --publish published=8080,target=80 
         --replicas 2
-        {{ target_image }}
+        {% raw %}{{ target_image }}{% endraw %}
       register: deploy_result
       ignore_errors: yes
 
-    - name: Update Swarm Service (if already exists)
+    - name: Update Swarm Service
       raw: >
         docker service update 
-        --image {{ target_image }} 
+        --image {% raw %}{{ target_image }}{% endraw %} 
         hello-world-app
       when: deploy_result.rc != 0

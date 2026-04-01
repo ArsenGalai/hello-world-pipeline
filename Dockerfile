@@ -1,3 +1,5 @@
-FROM nginx:alpine
-RUN echo "Hello World from Jenkins Pipeline!" > /usr/share/nginx/html/index.html
+FROM python:3.9-slim
+RUN pip install flask
+COPY app.py /app.py
 EXPOSE 80
+CMD ["python", "/app.py"]
