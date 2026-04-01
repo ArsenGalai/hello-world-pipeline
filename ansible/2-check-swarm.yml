@@ -1,0 +1,13 @@
+---
+- name: Check Swarm status on manager
+  hosts: manager
+  tasks:
+    - name: Check if node is active in Swarm
+      command: docker info --format '{{.Swarm.LocalNodeState}}'
+      register: swarm_status
+      changed_when: false
+
+    - name: Fail if Swarm is not active
+      fail:
+        msg: "Docker Swarm is NOT active!"
+      when: swarm_status.stdout != "active"

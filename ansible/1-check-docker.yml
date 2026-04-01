@@ -1,0 +1,13 @@
+---
+- name: Check if Docker is running on all workers
+  hosts: workers
+  tasks:
+    - name: Run docker info
+      command: docker info
+      register: docker_info
+      changed_when: false
+
+    - name: Show Docker status
+      debug:
+        msg: "Docker is running fine!"
+      when: docker_info.rc == 0

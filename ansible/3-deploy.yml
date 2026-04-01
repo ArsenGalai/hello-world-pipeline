@@ -1,0 +1,20 @@
+---
+- name: Deploy Hello World Image to Swarm
+  hosts: manager
+  tasks:
+    - name: Create Swarm Service
+      command: >
+        docker service create 
+        --name hello-world-app 
+        --publish published=8080,target=80 
+        --replicas 2
+        {{ target_image }}
+      register: deploy_result
+      ignore_errors: yes
+
+    - name: Update Swarm Service (if already exists)
+      command: >
+        docker service update 
+        --image {{ target_image }} 
+        hello-world-app
+      when: deploy_result.rc != 0
