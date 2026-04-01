@@ -1,9 +1,10 @@
 ---
 - name: Check if Docker is running on all workers
   hosts: workers
+  gather_facts: false
   tasks:
     - name: Run docker info
-      command: docker info
+      raw: docker info
       register: docker_info
       changed_when: false
 
