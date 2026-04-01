@@ -4,7 +4,7 @@
   gather_facts: false
   tasks:
     - name: Check if node is active in Swarm
-      raw: docker info --format '{{.Swarm.LocalNodeState}}'
+      raw: docker info --format '{% raw %}{{.Swarm.LocalNodeState}}{% endraw %}'
       register: swarm_status
       changed_when: false
 
